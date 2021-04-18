@@ -18,70 +18,39 @@ import org.openqa.selenium.support.ui.Wait;
 public class Iframes {
 	
 	WebDriver driver;
-	String baseURL="https://www.atm.cat/web/index.php";
+	String baseURL="https://www.madrid.es/portal/site/munimadrid";
 	
 
 	@Before
-	public void InitTest() {
+	public void InitTest() throws InterruptedException {
 		
 		driver = InstantiateDriver();	
 		driver.get(baseURL);
-	} 
+		Thread.sleep(15000);
+		} 
 	
 	@Test
-	public void ValidarEnvironment () {		
+	public void ValidarTextTitulo () {		
 			
 		String Titulo = driver.getTitle();
-		System.out.println("El titulo de mi pagina es: "+Titulo);
-		String expectetResult="ATM | web oficial de l'Autoritat del Transport Metropolità";
-		assertEquals("El titulo no corresponde al esperado", expectetResult, Titulo);
-				
-	}
-	
-	@Test
-	public void ValidarMenu () {
+		System.out.println("El titulo de mi página es: "+Titulo);
 						
-		WebElement botonCerrar = driver.findElement(By.cssSelector("div.modal-header button.close"));
-		System.out.println("boton cerrar Displayed: "+botonCerrar.isDisplayed());
-		botonCerrar.click();
-		WebElement menuAtm = driver.findElement(By.xpath("//a[contains(text(), 'ATM')]"));		
-		System.out.println("Menu Displayed: "+menuAtm.isDisplayed());
-		System.out.println("Menu Enabled: "+menuAtm.isEnabled());
-		System.out.println("Texto del menú: "+menuAtm.getText());
-		assertTrue(menuAtm.isDisplayed());
-		WebElement menuObservatori = driver.findElement(By.xpath("//a[contains(text(), 'Observatori')]"));		
-		System.out.println("Menu Displayed: "+menuObservatori.isDisplayed());
-		System.out.println("Menu Enabled: "+menuObservatori.isEnabled());
-		System.out.println("Texto del menú: "+menuObservatori.getText());
-		assertTrue(menuObservatori.isDisplayed());
-				
 	}
 	
 	@Test
-	public void Busqueda () throws InterruptedException {
+	public void ValidarTextTweets () throws InterruptedException {		
 		
-		WebElement botonCerrar = driver.findElement(By.cssSelector("div.modal-header button.close"));
-		System.out.println("boton cerrar Displayed: "+botonCerrar.isDisplayed());
-		botonCerrar.click();
+		System.out.println("Test_Didier");
+		WebElement iframeTweeter=driver.findElement(By.cssSelector("iframe#twitter-widget-0"));
+		driver.switchTo().frame(iframeTweeter);
+		Thread.sleep(15000);
+		//System.out.println(iframeTweeter.isEnabled());
+		WebElement TituloTweets = driver.findElement(By.cssSelector("div.timeline-Header.timeline-InformationCircle-widgetParent h1.timeline-Header-title.u-inlineBlock"));
 		
-		Thread.sleep(5000);
-		
-		
-		WebElement inputBuscar = driver.findElement(By.cssSelector("input.gsc-input"));
-		inputBuscar.click();
-		inputBuscar.sendKeys("Test");
-		WebElement inputSearch = driver.findElement(By.cssSelector("button.gsc-search-button"));
-		inputSearch.click();
-		
-		WebElement Resultats = driver.findElement(By.cssSelector("div.headline h1"));
-		System.out.println("Menu Enabled: "+Resultats.isEnabled());
-		System.out.println("Texto del menú: "+Resultats.getText());		
-		String UrlResultados = driver.getCurrentUrl();
-		System.out.println("La URL actual es: "+UrlResultados);
-		String expectetResult="Resultats";
-		assertEquals("Busqueda no realizada", expectetResult, Resultats.getText());
-		
+		System.out.println("El tweets: "+TituloTweets.getText());
+						
 	}
+		
 	
 	public WebDriver InstantiateDriver() {
 		
