@@ -1,6 +1,7 @@
 package Framework_test_iframes_selenium;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.TimeUnit;
@@ -40,18 +41,24 @@ public class Iframes {
 	@Test
 	public void ValidarTextTweets () throws InterruptedException {		
 		
-		System.out.println("Test_Didier");
+		//System.out.println("Test_Didier");
 		WebElement iframeTweeter=driver.findElement(By.cssSelector("iframe#twitter-widget-0"));
 		driver.switchTo().frame(iframeTweeter);
 		Thread.sleep(15000);
 		//System.out.println(iframeTweeter.isEnabled());
 		WebElement TituloTweets = driver.findElement(By.cssSelector("div.timeline-Header.timeline-InformationCircle-widgetParent h1.timeline-Header-title.u-inlineBlock"));
-		
+		String expectetResult = "Tweets por @MADRID";
+		assertEquals("Texto no encontrado", expectetResult, TituloTweets.getText());
 		System.out.println("El tweets: "+TituloTweets.getText());
-						
+		driver.switchTo().parentFrame();
+		WebElement ButtonDiarioMadrid = driver.findElement(By.cssSelector("a.button.button1[href*='diario.madrid.es']"));
+		//System.out.println("Boton Diario Madrid: " + ButtonDiarioMadrid.isEnabled());
+		assertTrue(ButtonDiarioMadrid.isDisplayed());
+		Thread.sleep(15000);
+		ButtonDiarioMadrid.click();
 	}
-		
 	
+		
 	public WebDriver InstantiateDriver() {
 		
 		System.setProperty("webdriver.chrome.driver","D:\\Selenium\\chromedriver.exe");
